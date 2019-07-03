@@ -8,12 +8,14 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
+const sslify = require('koa-sslify').default;//http强制HTTPS
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const routers = require('./routes/routers');
 const utils = require('./utils/index');
 // middlewares
+app.use(convert(sslify()));
 app.use(convert(bodyparser));
 app.use(convert(json()));
 app.use(convert(logger()));
@@ -59,5 +61,4 @@ app.on('error', function(err, ctx){
   log.error('server error', err, ctx);
 });
 
-console.log('Listening on ' + 3000);
 module.exports = app;
