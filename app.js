@@ -10,27 +10,23 @@ const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 const sslify = require('koa-sslify').default;//http强制HTTPS
 const compress =require('koa-compress');
+const serve = require("koa-static");
 
 const index = require('./routes/index');
-const users = require('./routes/users');
 const routers = require('./routes/routers');
 const utils = require('./utils/index');
+
 // middlewares
 app.use(compress({threshold:2048}));
 app.use(convert(sslify()));
 app.use(convert(bodyparser));
 app.use(convert(json()));
 app.use(convert(logger()));
-app.use(convert(require('koa-static')(__dirname + '/public')));
 
-app.use(views(__dirname + '/views', {
-  extension: 'jade'
-}));
-
-// app.use(views(__dirname + '/views-ejs', {
-//   extension: 'ejs'
-// }));
-
+// app.use(convert(serve(__dirname + '/static/css')));
+app.use(convert(serve(__dirname+ "/static/html",{ extensions: 'html'})));
+app.use(views(__dirname + '/static/views-jade', { extension: 'jade'}));
+app.use(views(__dirname + '/static/views-ejs', { extension: 'ejs'}));
 
 // logger
 app.use(async (ctx, next) => {
@@ -48,10 +44,6 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-//router.use('/', index.routes(), index.allowedMethods());
-
-// router.use('/person', users.routes());
-// router.use('/users', users.routes(), users.allowedMethods());
 // app.use(router.routes(), router.allowedMethods());
 
 // 路由

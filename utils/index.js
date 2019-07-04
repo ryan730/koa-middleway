@@ -33,7 +33,7 @@ exports.parse = async (ctx) =>{
     }else{
         //其他页面显示404页面
         //ctx.body = '<h1>404!</h1>'
-        ctx.body = [];
+        //ctx.body = [];
         return true;
     }
 }

@@ -12,9 +12,14 @@ exports.index = async ctx => {
   
 // 测试nunjucks模板
 exports.view = async ctx => {
+    console.log('ctx:',ctx);
     await ctx.render('index', {
         title: 'Koa'
     })
+}
+
+exports.html = async ctx => {
+    await ctx.render();
 }
 
 // 测试异常
