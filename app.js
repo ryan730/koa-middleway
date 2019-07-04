@@ -9,12 +9,14 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 const sslify = require('koa-sslify').default;//http强制HTTPS
+const compress =require('koa-compress');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
 const routers = require('./routes/routers');
 const utils = require('./utils/index');
 // middlewares
+app.use(compress({threshold:2048}));
 app.use(convert(sslify()));
 app.use(convert(bodyparser));
 app.use(convert(json()));
@@ -34,14 +36,14 @@ app.use(views(__dirname + '/views', {
 app.use(async (ctx, next) => {
   ctx.set("Access-Control-Allow-Origin", "*");
   ctx.set("Access-Control-Allow-Methods", "GET");
-  //ctx.set("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
-  //ctx.set("Access-Control-Allow-Headers", "x-requested-with, accept, origin, content-type");
+  ctx.set("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
+  ctx.set("Access-Control-Allow-Headers", "x-requested-with, accept, origin, content-type");
   ctx.set("Content-Type", "application/json;charset=utf-8");
   //ctx.set("Access-Control-Allow-Credentials", true);
 
   const start = new Date();
   const goto = await utils.parse(ctx);
-  ///goto && await next();///暂时关闭，只支持指定请求
+  goto && await next();///暂时关闭，只支持指定请求
   const ms = new Date() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
