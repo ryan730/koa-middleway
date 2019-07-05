@@ -7,16 +7,18 @@
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+var path = require('path');
 
 const fs = require('fs');
 const https = require('https');//node内置https server
 // var options = {
 //   key: fs.readFileSync(__dirname + '/../https-keys/private_key.pem'),  //私钥文件路径
-//   cert: fs.readFileSync(path.join(__dirname, './certificate/certificate.crt'), 'utf8')  //证书文件路径
+//   cert: fs.readFileSync(__dirname + '/../https-keys/ca-cert.pem')  //证书文件路径
 // };
+
 var options = {
-  key: fs.readFileSync(path.join(__dirname, './https-keys/fluttergo.pub.key'), 'utf8'),  //私钥文件路径
-  cert: fs.readFileSync(path.join(__dirname, './https-keys/fluttergo.pub_ca.crt'), 'utf8') //证书文件路径
+  key: fs.readFileSync(__dirname + '/../https-keys/www.fluttergo.pub.key'),  //私钥文件路径
+  cert: fs.readFileSync(__dirname + '/../https-keys/www.fluttergo.pub.pem')  //证书文件路径
 };
 
 /**
