@@ -8,7 +8,8 @@ router.get('/index', index.index);
 router.get('/index:id', index.index);
 router.get('/test_error', index.test_error);
 router.get('/', function (ctx, next) {
-    ctx.body = 'this a users response!';
+   // ctx.body = 'this a users response!';
+   router.redirect('/flutter_go_website/index.htm')
 });
 
 module.exports = router
