@@ -9,7 +9,8 @@ router.get('/index:id', index.index);
 router.get('/test_error', index.test_error);
 router.get('/', function (ctx, next) {
    // ctx.body = 'this a users response!';
-   router.redirect('/flutter_go_website/index.htm')
+   console.log('/',ctx);
+   ctx.redirect('/flutter_go_website/index.html')
 });
 
 module.exports = router
